@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<title>Game</title>
+	<script src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="/js/jquery.fittext.js"></script>
+	<script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.js'/></script>
+	<script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-route.js'/></script>
+	<script src="/js/angularCode.js"></script>
+</head>
+<body ng-controller="MonstersController as MC">
+	<div class="container-fluid">
+		<h2 id="title" class="text-center">Monsters</h2>
+		<p class="text-center">Can you defeat the King of Monsters?</p>
+		<div class="col-md-3">
+			<div id="player">
+				<div class="col-sm-6">
+					<h4>{{MC.user.name}}</h4>
+					<p>HP: {{MC.user.hitPoints}}/{{MC.user.maxHitPoints}}</p>
+				</div>
+				<div class="col-sm-6">
+					<img id="avatar_img" src="{{MC.user.image}}">
+				</div>
+				<table id="ability_table" class="table table-condensed table-hover">
+					<tr>
+						<th>Ability</th>
+						<th>Effect</th>
+					</tr>
+					<tr class="ability_row" ng-repeat="ability in MC.user.abilities" ng-click="!MC.isEnabled || MC.attack(ability)">
+						<td>{{ability.name}}</td>
+						<td>{{ability.damage}} {{ability.effect}}</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div id="gameLog">
+				<p ng-repeat="message in MC.logs track by $index">{{message}}</p>
+				<div id="upgrades" class="col-sm-10 col-sm-offset-1">
+					<table class="table table-condensed table-hover">
+						<tr ng-repeat="upgrade in MC.upgrades" ng-click="MC.upgrade(upgrade)">
+							<td>{{upgrade}}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div id="monster">
+				<div class="col-sm-6">
+					<h4>{{MC.monster.name}}</h4>
+					<p>HP: {{MC.monster.hitPoints}}</p>
+				</div>
+				<div class="col-sm-6">
+					<img id="monster_img" src="{{MC.monster.image}}">
+				</div>
+				<table class="table table-condensed table-hover">
+					<tr>
+						<th>Ability</th>
+						<th>Effect</th>
+					</tr>
+					<tr ng-repeat="ability in MC.monster.abilities">
+						<td>{{ability.name}}</td>
+						<td>{{ability.damage}} damage</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
