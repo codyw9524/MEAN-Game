@@ -4,7 +4,6 @@ myApp.factory('MonsterFactory', function($http){
 	var factory = {};
 	factory.monster;
 	factory.user;
-	factory.logs = [];
 	factory.getAvatar = function(callback){
 		$http.get('/avatar').success(function(json){
 			factory.user = json;
@@ -16,10 +15,6 @@ myApp.factory('MonsterFactory', function($http){
 			factory.monster = json;
 			callback(json);
 		})
-	}
-	factory.createLog = function(string, callback){
-		factory.logs.push(string);
-		callback(factory.logs);
 	}
 	return factory;
 })
@@ -101,7 +96,7 @@ myApp.controller('MonstersController', function(MonsterFactory, $scope){
 		self.createLog(string);
 	}
 	this.removeAbility = function(abilityName){
-		pos = self.user.abilities.map(function(e) { return e.name; }).indexOf(abilityName);
+		var pos = self.user.abilities.map(function(e) { return e.name; }).indexOf(abilityName);
 		self.user.abilities.splice(pos, 1);
 	}
 	this.createLog = function(string){
@@ -211,7 +206,6 @@ myApp.controller('MonstersController', function(MonsterFactory, $scope){
 			self.user.abilities.push({name: 'food monster baby', damage: '', effect: 'unknown'});
 		}
 		self.logs = [];
-		MonsterFactory.logs = [];
 		self.upgrades = [];
 		$('#upgrades').hide();
 		$('#monster').fadeIn();
