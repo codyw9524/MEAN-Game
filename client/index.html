@@ -2,12 +2,13 @@
 <html lang="en" ng-app="myApp">
 <head>
 	<title>Game</title>
-	<script src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<script type="text/javascript" src="/js/jquery.fittext.js"></script>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 	<script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.js'/></script>
 	<script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-route.js'/></script>
 	<script src="/js/angularCode.js"></script>
@@ -20,7 +21,7 @@
 			<div id="player">
 				<div class="col-sm-6">
 					<h4>{{MC.user.name}}</h4>
-					<p>HP: {{MC.user.hitPoints}}/{{MC.user.maxHitPoints}}</p>
+					<p id="player_health">HP: {{MC.user.hitPoints}}/{{MC.user.maxHitPoints}}</p>
 				</div>
 				<div class="col-sm-6">
 					<img id="avatar_img" src="{{MC.user.image}}">

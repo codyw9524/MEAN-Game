@@ -24,7 +24,7 @@ myApp.factory('MonsterFactory', function($http){
 	return factory;
 })
 
-myApp.controller('MonstersController', function(MonsterFactory){
+myApp.controller('MonstersController', function(MonsterFactory, $scope){
 	var self = this;
 	var string;
 	this.user;
@@ -47,7 +47,7 @@ myApp.controller('MonstersController', function(MonsterFactory){
 		else if(input.name == 'pet water snake'){
 			self.usePetWaterSnake(input);
 		}
-		else if(input.name == 'food baby'){
+		else if(input.name == 'food monster baby'){
 			self.useFoodBaby(input);
 		} else {
 			self.avatarAttack(input);
@@ -57,7 +57,10 @@ myApp.controller('MonstersController', function(MonsterFactory){
 			if(self.monster.hitPoints < 1){
 				self.monsterDefeated();
 			} else {
-				self.monsterAttack();
+				$('#monster').effect('shake', function(){
+					self.monsterAttack();
+					$scope.$apply();
+				});
 			}
 		}
 	}
@@ -71,7 +74,7 @@ myApp.controller('MonstersController', function(MonsterFactory){
 		} else {
 			string = "The " + input.name + " has no effect.";
 			self.createLog(string);
-			self.monsterAttack();
+			self.monsterAttack(self);
 		}
 	}
 	this.useFoodBaby = function(input){
@@ -88,6 +91,7 @@ myApp.controller('MonstersController', function(MonsterFactory){
 		}
 	}
 	this.usePotion = function(input){
+		$('#player_health').effect('highlight');
 		self.user.hitPoints += input.damage;
 		if(self.user.hitPoints > self.user.maxHitPoints){
 			self.user.hitPoints = self.user.maxHitPoints;
@@ -101,14 +105,12 @@ myApp.controller('MonstersController', function(MonsterFactory){
 		self.user.abilities.splice(pos, 1);
 	}
 	this.createLog = function(string){
-		MonsterFactory.createLog(string, function(logs){
-			self.logs = logs;
-		})
+		self.logs.push(string);
 	}
 	this.avatarAttack = function(input){
-		self.monster.hitPoints -= input.damage;
-		string = 'You used your ' + input.name + ' on the ' + self.monster.name + ' for ' + input.damage + ' damage.';
-		self.createLog(string);
+			self.monster.hitPoints -= input.damage;
+			string = 'You used your ' + input.name + ' on the ' + self.monster.name + ' for ' + input.damage + ' damage.';
+			self.createLog(string);
 	}
 	this.avatarDefeated = function(){
 		self.isEnabled = false;
@@ -118,6 +120,7 @@ myApp.controller('MonstersController', function(MonsterFactory){
 		self.createLog(string);
 	}
 	this.monsterAttack = function(){
+		$('#player').effect('shake');
 		string = self.monster.name + " uses " + self.monster.abilities[0].name + " on you for " + self.monster.abilities[0].damage + " damage.";
 		self.createLog(string);
 		self.user.hitPoints -= self.monster.abilities[0].damage;
@@ -127,6 +130,8 @@ myApp.controller('MonstersController', function(MonsterFactory){
 	}
 	this.monsterDefeated = function(){
 		self.monster.hitPoints = 0;
+		$('#monster').effect('pulsate', 500);
+		// $('#monster').toggle('bounce', {times: 3}, "slow");
 		string = "Congratulations Avatar, you have defeated the " + self.monster.name + "!";
 		self.createLog(string);
 		if(self.monster.name == 'King of Monsters'){
@@ -168,7 +173,7 @@ myApp.controller('MonstersController', function(MonsterFactory){
 			self.upgrades = ['receive 1 pet water snake', 'max health + 30'];
 		}
 		else if(self.monster.name == 'Food Monster'){
-			self.upgrades = ['sword damage + 10', 'receive 1 food baby'];
+			self.upgrades = ['sword damage + 10', 'receive 1 food monster baby'];
 		}
 		else if(self.monster.name == 'Fire Snake'){
 			self.upgrades = ['receive 2 potions', 'sword damage + 10'];
@@ -180,6 +185,7 @@ myApp.controller('MonstersController', function(MonsterFactory){
 	}
 	this.upgrade = function(string){
 		if(string.indexOf('sword damage') != -1){
+			$('#ability_table tr:nth-child(2)').effect('highlight');
 			string = string.split(' ');
 			self.user.abilities[0].damage += parseInt(string[string.length - 1]);
 		}
@@ -190,6 +196,7 @@ myApp.controller('MonstersController', function(MonsterFactory){
 			}
 		}
 		else if(string.indexOf('max health') != -1){
+			$('#player_health').effect('highlight');
 			string = string.split(' ');
 			var modifier = parseInt(string[string.length - 1]);
 			self.user.maxHitPoints += modifier;
@@ -201,8 +208,8 @@ myApp.controller('MonstersController', function(MonsterFactory){
 		else if(string == 'receive 1 pet water snake'){
 			self.user.abilities.push({name: 'pet water snake', damage: '', effect: 'unknown'});
 		}
-		else if(string == 'receive 1 food baby'){
-			self.user.abilities.push({name: 'food baby', damage: '', effect: 'unknown'});
+		else if(string == 'receive 1 food monster baby'){
+			self.user.abilities.push({name: 'food monster baby', damage: '', effect: 'unknown'});
 		}
 		self.logs = [];
 		MonsterFactory.logs = [];
