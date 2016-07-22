@@ -114,7 +114,7 @@ myApp.controller('MonstersController', function(MonsterFactory, $scope){
 	}
 	this.avatarDefeated = function(){
 		self.isEnabled = false;
-		$('#player').fadeOut();
+		$('#player').effect('pulsate', 500);
 		self.user.hitPoints = 0;
 		string = "Avatar, you have been defeated.  Please, refresh the page to try again!";
 		self.createLog(string);
@@ -131,7 +131,6 @@ myApp.controller('MonstersController', function(MonsterFactory, $scope){
 	this.monsterDefeated = function(){
 		self.monster.hitPoints = 0;
 		$('#monster').effect('pulsate', 500);
-		// $('#monster').toggle('bounce', {times: 3}, "slow");
 		string = "Congratulations Avatar, you have defeated the " + self.monster.name + "!";
 		self.createLog(string);
 		if(self.monster.name == 'King of Monsters'){
